@@ -11,11 +11,11 @@ export default function Contact() {
           <div className="text-center mb-12">
             <h3 className="text-xl font-semibold mb-6">FOLLOW US</h3>
             <div className="flex justify-center items-center gap-6">
-              <a href="https://www.instagram.com/kavyareddy" className="hover:opacity-80 transition-opacity">
+              <a href="https://www.instagram.com/kavya.reddy_11" className="hover:opacity-80 transition-opacity">
                 <Instagram className="w-7 h-7" />
                 <span className="sr-only">Instagram</span>
               </a>
-              <a href="https://www.facebook.com/kavyareddy" className="hover:opacity-80 transition-opacity">
+              <a href="#" className="hover:opacity-80 transition-opacity">
                 <Facebook className="w-7 h-7" />
                 <span className="sr-only">Facebook</span>
               </a>
@@ -27,11 +27,11 @@ export default function Contact() {
                   height={28}
                 />
               </a>
-              <a href="https://www.youtube.com/kavyareddy" className="hover:opacity-80 transition-opacity">
+              <a href="#" className="hover:opacity-80 transition-opacity">
                 <Youtube className="w-7 h-7" />
                 <span className="sr-only">YouTube</span>
               </a>
-              <a href="https://www.pinterest.com/kavyareddy" className="hover:opacity-80 transition-opacity">
+              <a href="#" className="hover:opacity-80 transition-opacity">
                 <Image 
                   src="/pinterest-icon.png" 
                   alt="Pinterest" 
@@ -39,7 +39,7 @@ export default function Contact() {
                   height={28}
                 />
               </a>
-              <a href="https://twitter.com/kavyareddy" className="hover:opacity-80 transition-opacity">
+              <a href="#" className="hover:opacity-80 transition-opacity">
                 <Twitter className="w-7 h-7" />
                 <span className="sr-only">Twitter</span>
               </a>

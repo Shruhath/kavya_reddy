@@ -19,7 +19,7 @@ export default function Hero() {
             alt="Hero Center Photo"
             className="w-full max-w-md md:max-w-lg object-contain"
           />
-          <p className="text-sm md:text-base mt-4 font-serif">DEBUT : Season Beginnings</p>
+          {/* <p className="text-sm md:text-base mt-4 font-serif">DEBUT : Season Beginnings</p> */}
         </div>
       </div>
     </section>

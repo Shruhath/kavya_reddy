@@ -65,7 +65,7 @@ export default function Gallery() {
   return (
     <section id="gallery" className="py-10 md:py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-center">Our Collection</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-10 text-center">Gallery</h2>
         <div className="space-y-8 md:space-y-16">
           {galleryItems.map((item, index) => {
             const [ref, inView] = useInView({

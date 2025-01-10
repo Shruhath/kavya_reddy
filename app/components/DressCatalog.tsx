@@ -12,6 +12,7 @@ const dressItems = [
   { id: 5, image: '/dress-5-thumb.webp', video: '/dress-5.webm' },
   { id: 6, image: '/dress-6-thumb.webp', video: '/dress-6.webm' },
   { id: 7, image: '/dress-7-thumb.webp', video: '/dress-7.webm' },
+  { id: 8, image: '/dress-8-thumb.webp', video: '/dress-8.webm' },
   // Add more items as needed
 ]
 
@@ -48,7 +49,7 @@ export default function DressCatalog() {
   return (
     <section id="dress-catalog" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-10 text-center">Our Dress Collection</h2>
+        <h2 className="text-3xl font-bold mb-10 text-center">Our Collection</h2>
         <div className="relative">
           <button
             onClick={() => scroll('left')}
