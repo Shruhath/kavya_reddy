@@ -8,7 +8,7 @@ export default function Hero() {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/hero-video.webm" type="video/webm" />
+        <source src="/hero-video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
