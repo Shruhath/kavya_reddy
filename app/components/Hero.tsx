@@ -1,4 +1,22 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+
 export default function Hero() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      const mediaQuery = window.matchMedia('(max-width: 768px)')
+      setIsMobile(mediaQuery.matches)
+    }
+
+    checkIfMobile()
+    window.addEventListener('resize', checkIfMobile)
+
+    return () => window.removeEventListener('resize', checkIfMobile)
+  }, [])
+
   return (
     <section className="relative h-screen">
       <video
@@ -9,7 +27,11 @@ export default function Hero() {
         className="absolute inset-0 w-full h-full object-cover"
         poster="/hero-poster.jpg"
       >
-        <source src="/hero-video.mp4" type="video/mp4" />
+        {isMobile ? (
+          <source src="/hero-video-mobile.mp4" type="video/mp4; codecs=hevc,mp4a.40.2" />
+        ) : (
+          <source src="/hero-video-desktop.mp4" type="video/mp4" />
+        )}
         <source src="/hero-video.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
@@ -25,3 +47,4 @@ export default function Hero() {
     </section>
   )
 }
+
