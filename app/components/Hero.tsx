@@ -13,8 +13,13 @@ export default function Hero() {
       </video>
       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
         <div className="text-center text-white px-4">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">Kavya Reddy</h1>
-          <p className="text-xl md:text-2xl">Exquisite Bridal Collection</p>
+         {/* Replace the src with your photo's URL */}
+         <img
+            src="/only_kr.png"
+            alt="Hero Center Photo"
+            className="w-full max-w-md md:max-w-lg object-contain"
+          />
+          <p className="text-sm md:text-base mt-4 font-serif">DEBUT : Season Beginnings</p>
         </div>
       </div>
     </section>

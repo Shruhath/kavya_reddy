@@ -68,9 +68,9 @@ export default function Contact() {
                   <Mail className="w-5 h-5" />
                   <span>kolankavya3@gmail.com</span>
                 </a>
-                <a href="mailto:shruhathkreddy@gmail.com" className="flex items-center gap-2 hover:text-gray-600">
+                <a href="mailto:shruhathreddy@ushodayanetworks@.com" className="flex items-center gap-2 hover:text-gray-600">
                   <Mail className="w-5 h-5" />
-                  <span>shruhathkreddy@gmail.com</span>
+                  <span>shruhathreddy@ushodayanetworks.com</span>
                 </a>
               </div>
             </div>
