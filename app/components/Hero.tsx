@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export default function Hero() {
   const [isMobile, setIsMobile] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -17,21 +18,28 @@ export default function Hero() {
     return () => window.removeEventListener('resize', checkIfMobile)
   }, [])
 
+  useEffect(() => {
+    const video = videoRef.current
+    if (video) {
+      video.addEventListener('canplay', () => {
+        video.play().catch(error => {
+          console.log('Autoplay was prevented:', error)
+        })
+      })
+    }
+  }, [])
+
   return (
     <section className="relative h-screen">
       <video
-        autoPlay
+        ref={videoRef}
         loop
         muted
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
         poster="/hero-poster.jpg"
       >
-        {isMobile ? (
-          <source src="/hero-video-mobile.mp4" type="video/mp4; codecs=hevc,mp4a.40.2" />
-        ) : (
-          <source src="/hero-video-desktop.mp4" type="video/mp4" />
-        )}
+        <source src={isMobile ? "/hero-video-mobile.mp4" : "/hero-video-desktop.mp4"} type="video/mp4" />
         <source src="/hero-video.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
