@@ -1,8 +1,9 @@
-'use client';
+'use client'
 
-import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useMediaQuery } from 'react-responsive'
 
 const dressItems = [
   { id: 1, image: '/dress-1-thumb.webp', video: '/dress-1.webm' },
@@ -13,40 +14,45 @@ const dressItems = [
   { id: 6, image: '/dress-6-thumb.webp', video: '/dress-6.webm' },
   { id: 7, image: '/dress-7-thumb.webp', video: '/dress-7.webm' },
   { id: 8, image: '/dress-8-thumb.webp', video: '/dress-8.webm' },
-];
+  // Add more items as needed
+]
 
 export default function DressCatalog() {
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({});
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeItem, setActiveItem] = useState<number | null>(null)
+  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({})
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const isMobile = useMediaQuery({ maxWidth: 767 })
 
   useEffect(() => {
-    dressItems.forEach((item) => {
-      const video = videoRefs.current[item.id];
-      if (video) {
-        if (hoveredItem === item.id) {
-          video.play().catch((error) => console.log('Video play failed:', error));
+    dressItems.forEach(item => {
+      if (videoRefs.current[item.id]) {
+        if (activeItem === item.id) {
+          videoRefs.current[item.id]?.play().catch(error => console.log('Video play failed:', error))
         } else {
-          video.pause();
-          video.currentTime = 0;
+          videoRefs.current[item.id]?.pause()
+          if (videoRefs.current[item.id]) {
+            videoRefs.current[item.id]!.currentTime = 0
+          }
         }
       }
-    });
-  }, [hoveredItem]);
+    })
+  }, [activeItem])
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 300; // Adjust this value to change scroll distance
+      const scrollAmount = 300 // Adjust this value to change scroll distance
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
+        behavior: 'smooth'
+      })
     }
-  };
+  }
 
-  const handleInteraction = (itemId: number) => {
-    setHoveredItem((prev) => (prev === itemId ? null : itemId));
-  };
+  const handleItemInteraction = (id: number) => {
+    if (isMobile) {
+      setActiveItem(prevActiveItem => prevActiveItem === id ? null : id)
+    }
+  }
 
   return (
     <section id="dress-catalog" className="py-20 bg-gray-50">
@@ -69,10 +75,9 @@ export default function DressCatalog() {
               <div
                 key={item.id}
                 className="flex-none w-64 h-96 relative rounded-lg overflow-hidden cursor-pointer"
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
-                onTouchStart={() => handleInteraction(item.id)}
-                onTouchEnd={() => handleInteraction(item.id)}
+                onMouseEnter={() => !isMobile && setActiveItem(item.id)}
+                onMouseLeave={() => !isMobile && setActiveItem(null)}
+                onClick={() => handleItemInteraction(item.id)}
               >
                 <Image
                   src={item.image}
@@ -81,13 +86,13 @@ export default function DressCatalog() {
                   objectFit="cover"
                 />
                 <video
-                  ref={(el) => (videoRefs.current[item.id] = el)}
+                  ref={el => videoRefs.current[item.id] = el}
                   src={item.video}
                   loop
                   muted
                   playsInline
                   className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-                    hoveredItem === item.id ? 'opacity-100' : 'opacity-0'
+                    activeItem === item.id ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
               </div>
@@ -103,5 +108,6 @@ export default function DressCatalog() {
         </div>
       </div>
     </section>
-  );
+  )
 }
+
