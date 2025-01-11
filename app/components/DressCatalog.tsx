@@ -6,14 +6,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useMediaQuery } from 'react-responsive'
 
 const dressItems = [
-  { id: 1, image: '/dress-1-thumb.webp', video: '/dress-1.webm' },
-  { id: 2, image: '/dress-2-thumb.webp', video: '/dress-2.webm' },
-  { id: 3, image: '/dress-3-thumb.webp', video: '/dress-3.webm' },
-  { id: 4, image: '/dress-4-thumb.webp', video: '/dress-4.webm' },
-  { id: 5, image: '/dress-5-thumb.webp', video: '/dress-5.webm' },
-  { id: 6, image: '/dress-6-thumb.webp', video: '/dress-6.webm' },
-  { id: 7, image: '/dress-7-thumb.webp', video: '/dress-7.webm' },
-  { id: 8, image: '/dress-8-thumb.webp', video: '/dress-8.webm' },
+  { id: 1, image: '/dress-1-thumb.webp', video: '/dress-1.mp4' },
+  { id: 2, image: '/dress-2-thumb.webp', video: '/dress-2.mp4' },
+  { id: 3, image: '/dress-3-thumb.webp', video: '/dress-3.mp4' },
+  { id: 4, image: '/dress-4-thumb.webp', video: '/dress-4.mp4' },
+  { id: 5, image: '/dress-5-thumb.webp', video: '/dress-5.mp4' },
+  { id: 6, image: '/dress-6-thumb.webp', video: '/dress-6.mp4' },
+  { id: 7, image: '/dress-7-thumb.webp', video: '/dress-7.mp4' },
+  { id: 8, image: '/dress-8-thumb.webp', video: '/dress-8.mp4' },
   // Add more items as needed
 ]
 
@@ -27,7 +27,14 @@ export default function DressCatalog() {
     dressItems.forEach(item => {
       if (videoRefs.current[item.id]) {
         if (activeItem === item.id) {
-          videoRefs.current[item.id]?.play().catch(error => console.log('Video play failed:', error))
+          const playPromise = videoRefs.current[item.id]?.play();
+          if (playPromise !== undefined) {
+            playPromise.then(_ => {
+              // Playback started successfully
+            }).catch(error => {
+              console.log('Video play failed:', error)
+            });
+          }
         } else {
           videoRefs.current[item.id]?.pause()
           if (videoRefs.current[item.id]) {
@@ -48,10 +55,8 @@ export default function DressCatalog() {
     }
   }
 
-  const handleItemInteraction = (id: number) => {
-    if (isMobile) {
-      setActiveItem(prevActiveItem => prevActiveItem === id ? null : id)
-    }
+  const handleItemInteraction = (id: number | null) => {
+    setActiveItem(id)
   }
 
   return (
@@ -75,9 +80,9 @@ export default function DressCatalog() {
               <div
                 key={item.id}
                 className="flex-none w-64 h-96 relative rounded-lg overflow-hidden cursor-pointer"
-                onMouseEnter={() => !isMobile && setActiveItem(item.id)}
-                onMouseLeave={() => !isMobile && setActiveItem(null)}
-                onClick={() => handleItemInteraction(item.id)}
+                onMouseEnter={() => !isMobile && handleItemInteraction(item.id)}
+                onMouseLeave={() => !isMobile && handleItemInteraction(null)}
+                onClick={() => isMobile && handleItemInteraction(item.id)}
               >
                 <Image
                   src={item.image}
@@ -91,6 +96,7 @@ export default function DressCatalog() {
                   loop
                   muted
                   playsInline
+                  preload="metadata"
                   className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
                     activeItem === item.id ? 'opacity-100' : 'opacity-0'
                   }`}
