@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { useState, useRef, useEffect } from 'react'
-import Image from 'next/image'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const dressItems = [
   { id: 1, image: '/dress-1-thumb.webp', video: '/dress-1.webm' },
@@ -13,38 +13,40 @@ const dressItems = [
   { id: 6, image: '/dress-6-thumb.webp', video: '/dress-6.webm' },
   { id: 7, image: '/dress-7-thumb.webp', video: '/dress-7.webm' },
   { id: 8, image: '/dress-8-thumb.webp', video: '/dress-8.webm' },
-  // Add more items as needed
-]
+];
 
 export default function DressCatalog() {
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null)
-  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({})
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const videoRefs = useRef<{ [key: number]: HTMLVideoElement | null }>({});
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    dressItems.forEach(item => {
-      if (videoRefs.current[item.id]) {
+    dressItems.forEach((item) => {
+      const video = videoRefs.current[item.id];
+      if (video) {
         if (hoveredItem === item.id) {
-          videoRefs.current[item.id]?.play().catch(error => console.log('Video play failed:', error))
+          video.play().catch((error) => console.log('Video play failed:', error));
         } else {
-          videoRefs.current[item.id]?.pause()
-          if (videoRefs.current[item.id]) {
-            videoRefs.current[item.id]!.currentTime = 0
-          }
+          video.pause();
+          video.currentTime = 0;
         }
       }
-    })
-  }, [hoveredItem])
+    });
+  }, [hoveredItem]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 300 // Adjust this value to change scroll distance
+      const scrollAmount = 300; // Adjust this value to change scroll distance
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      })
+        behavior: 'smooth',
+      });
     }
-  }
+  };
+
+  const handleInteraction = (itemId: number) => {
+    setHoveredItem((prev) => (prev === itemId ? null : itemId));
+  };
 
   return (
     <section id="dress-catalog" className="py-20 bg-gray-50">
@@ -69,6 +71,8 @@ export default function DressCatalog() {
                 className="flex-none w-64 h-96 relative rounded-lg overflow-hidden cursor-pointer"
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
+                onTouchStart={() => handleInteraction(item.id)}
+                onTouchEnd={() => handleInteraction(item.id)}
               >
                 <Image
                   src={item.image}
@@ -77,7 +81,7 @@ export default function DressCatalog() {
                   objectFit="cover"
                 />
                 <video
-                  ref={el => videoRefs.current[item.id] = el}
+                  ref={(el) => (videoRefs.current[item.id] = el)}
                   src={item.video}
                   loop
                   muted
@@ -99,6 +103,5 @@ export default function DressCatalog() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
